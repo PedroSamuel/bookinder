@@ -36,7 +36,7 @@ h3 {
 
 
 button {
-    background-color: darkgreen;
+    background-color: blue;
     border: none;
     color: silver;
     padding: 15px 25px;
@@ -47,16 +47,27 @@ button {
 } 
 
 
-.dislike {
+button.dislike {
     background-color:firebrick; 
 }
 
+span.dislike {
+    color: red;
+}
+
+button.like {
+    background-color:darkgreen; 
+}
+
+span.like {
+    color: green;
+}
 
 @media (max-width:1000px){
 }
 
 
- .book {
+ #book {
     top: 30px;
     border-style: solid;  
     border-color:#290004;
@@ -70,6 +81,15 @@ button {
     background: #65658c;
 
 } 
+
+#searchdiv{
+    display: block;
+    position: relative;
+    margin: auto;
+    top: 100px;
+    width: 300px;
+ 
+}
 
 
 /* .container-fluid{
@@ -161,11 +181,16 @@ p {
     margin: auto;
     display: block;
     position: fixed;
-    top: 10px;
+    bottom: 10px;
     right: 5px;
     
 }
 
-.hidden {
+#hourglass{
+    display: block;
+    position: absolute;
+}
+
+/* .hidden {
     display: none;
- }
+ } */

@@ -1,3 +1,9 @@
+$("div#final").toggle();
+$("#book").toggle();
+$("#hourglass").hide();
+
+
+
 function printTime(){
     var d = new Date();
     var hours = d.getHours();
@@ -10,21 +16,22 @@ function printTime(){
 }
 
 setInterval(printTime, 1000);
-var oppinions = "";
 
 class Library{
-    constructor(){
+    constructor(target){
+        this.target = target
         this.books = [];
         this.seenBooks = [];
-        this.GetBooks("bernard cornwell");
+        this.GetBooks(this.target);
+        this.opinions = "";
     }
 
     Load(book){
         if (library.books[0] != undefined){
-            $(".book h1").text(book.title);
-            $(".book p").text(book.description);
-            $(".book img").attr("src",book.img);
-            $(".book h3").text(book.autor[0]);
+            $("#book h1").text(book.title);
+            $("#book p").text(book.description);
+            $("#book img").attr("src",book.img);
+            $("#book h3").text(book.autor[0]);
             // book.links.forEach(function(v,i){
             //     $(".book a").eq(i).text(v.text);
             //     $(".book a").eq(i).attr("href",v.url);
@@ -36,16 +43,21 @@ class Library{
     NextBook(){
         this.seenBooks.push(this.books[0]);
         this.books.splice(0,1);
+        var n = this.seenBooks;
+        //console.log("seenbooks = " + n);
+        var m = (this.books);
+        //console.log("books = " + m);
         this.Load(this.books[0]);
     }
     GetBooks(search){
         var obj = this;
+        //alert("Searching books by name: " + search);
         $.ajax({
             url: "https://www.googleapis.com/books/v1/volumes?q=/" + search,
             
         }).done(function(data){
             //quando o pedido ajax terminar com sucesso
-            console.log(data);
+            //console.log(data);
             data.items.forEach(function(v,i){
                 var book = {
                     title: v.volumeInfo.title,
@@ -57,29 +69,35 @@ class Library{
                 obj.books.push(book);
             });
                 obj.Load(obj.books[0]);
+                $("div#searchdiv").hide();
+                $("#book").toggle();
         });
     }
 
 
     Like(){
         library.books[0].oppinion = "Like"
-        oppinions = oppinions + library.books[0].title + " = Like <br/>";
-        console.log("Like")
+        this.opinions = this.opinions + library.books[0].title + " = <span class='like'>Like </span> <br/>";
         }
 
     Dislike() {
         library.books[0].oppinion = "Dislike"
-        oppinions = oppinions + library.books[0].title + " = Dislike <br/>";
-        console.log("Dislike")
+        this.opinions = this.opinions + library.books[0].title + " = <span class='dislike'>Dislike </span> <br/>";
     }
 
     Final(){
-        $("#book").addClass("hidden");
-        $("#final").removeClass("hidden"); 
+        $("#book").toggle();
+        //.addClass("hidden");
+        $("#final").toggle();
+        //.removeClass("hidden"); 
 
-        $(".ops").html(oppinions);
-        // $(".ops").text(JSON.stringify(oppinions[0]));
+        $(".ops").html(this.opinions);
+        // $(".ops").text(JSON.stringify(opinions[0]));
         // create paragraph for each comment
+    }
+
+    NewSearch(){
+        this.target = $("form#search").val()
     }
 }
 
@@ -94,16 +112,40 @@ class Library{
  });
 
  $("#return").click(function(){
-        library.GetBooks("bernard cornwell");
-        $("#final").addClass("hidden").removeClass("book");
-        $("#book").removeClass("hidden"); 
 
+        $("#final").toggle();
+        //addClass("hidden");//.removeClass("book");
+        $("#book").toggle();
+        //removeClass("hidden"); 
+        opinions = "";
+        //$(".ops").empty();
+        library.books = library.seenBooks;
+        library.seenBooks = [];
+        library.Load(library.books[0]);
 
  });
 
+ $("button#search").click(function(){
 
-var library = new Library();
+        $("#final").toggle();
+        //addClass("hidden");//.removeClass("book");
+        $("div#searchdiv").toggle();
+        $("#hourglass").hide();
 
-$("button").click(function(){
+        //removeClass("hidden");
+ });
+
+//var library = new Library();
+
+$("button.like, button.dislike").click(function(){
     library.NextBook();  });
 
+
+$( "#searchdiv").submit(function(event) {
+    event.preventDefault();
+    library = new Library($("#booksearch").val());
+    $("#hourglass").show();
+
+});
+
+var library;

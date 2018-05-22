@@ -13,9 +13,9 @@
 
 
 
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12 book" id="book">
+                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12" id="book">
                     <div class = "top">
-                        <img src="" class="img-responsive" alt="Image not Found" draggable="true">
+                        <img src="" class="img-responsive" alt="Image not found" onerror="this.src='not_found.jpg';" draggable="true">
                         <h1> </h1>
                         <h3><a href="" target="_blank"> </a></h3>
                     </div>
@@ -31,7 +31,7 @@
 
                 </div> 
 
-                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12 hidden" id="final" >
+                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-12" id="final" >
 
                     <p class="text-justify ops">  </p>
                     
@@ -45,6 +45,18 @@
 
                 </div> 
 
+                </div> 
+
+                <div id="searchdiv" class=class="col-xl-2 col-lg-3 col-md-4 col-sm-4">
+
+                        <p class="text-justify" >  </p>
+                        <form id="search">
+                        Search google books<br>
+                        <input type="text" name="booksearch" id='booksearch'><br>
+                        <input type="submit" value="Submit">'
+                        <img id="hourglass" src="wait.gif"/>
+                        </form>
+                </div> 
 
 
             </div>
