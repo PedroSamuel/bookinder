@@ -27,19 +27,58 @@ class Library{
     }
 
     Load(book){
-        if (library.books[0] != undefined){
             $("#book h1").text(book.title);
             $("#book p").text(book.description);
             $("#book img").attr("src",book.img);
-            $("#book h3").text(book.autor[0]);
-            // book.links.forEach(function(v,i){
-            //     $(".book a").eq(i).text(v.text);
-            //     $(".book a").eq(i).attr("href",v.url);
-            // });
-            } else{
-                library.Final();
-            }
-    }
+            $("#book h3").text(book.author[0]);
+    };
+
+
+    /*Load(book){
+        if (book.title != undefined){
+            $("#book h1").text(book.title);
+        } else $("#book h1").text("title not available");    
+        if(book.description != undefined){
+            $("#book p").text(book.description);
+        } else $("#book p").text("description not available");
+        if (book.img != undefined){
+            $("#book img").attr("src",book.img);
+        } else $("#book img").attr("src","not_found.jpg");
+        if (book.author != undefined){
+            $("#book h3").text(book.author[0]);
+        } else $("#book h3").text("author not available");
+    }; */
+
+
+    
+    // Load(book){
+    //     try{
+    //     $("#book h1").text(book.title);
+    //     } catch(err1){
+    //         console.log(err1),
+    //         $("#book h1").text("Title not Availabe");
+    //     };
+    //     try{
+    //     $("#book p").text(book.description);
+    //     } catch(err2){
+    //         console.log(err2),
+    //         $("#book p").text("Description not Availabe");
+    //     };
+    //     try{
+    //     $("#book img").attr("src",book.img);
+    //     } catch(err3){
+    //         console.log(err3),
+    //         $("#book img").attr("src", "not_found.jpg");
+    //     };
+    //     try{
+    //     $("#book h3").text(book.author[0]);
+    //     } catch(err4){
+    //         console.log(err4),
+    //         $("#book h3").text("author not Availabe");
+    //     };
+    // };
+
+
     NextBook(){
         this.seenBooks.push(this.books[0]);
         this.books.splice(0,1);
@@ -47,7 +86,11 @@ class Library{
         //console.log("seenbooks = " + n);
         var m = (this.books);
         //console.log("books = " + m);
-        this.Load(this.books[0]);
+        if (library.books[0] != undefined){    
+            this.Load(this.books[0]);
+        } else{
+                library.Final();
+            }        
     }
     GetBooks(search){
         var obj = this;
@@ -58,20 +101,41 @@ class Library{
         }).done(function(data){
             //quando o pedido ajax terminar com sucesso
             //console.log(data);
-            data.items.forEach(function(v,i){
-                var book = {
-                    title: v.volumeInfo.title,
-                    autor: v.volumeInfo.authors,
-                    description: v.volumeInfo.description,
-                    img: v.volumeInfo.imageLinks.thumbnail,
-                    opinion: "",
-                }
-                obj.books.push(book);
-            });
-                obj.Load(obj.books[0]);
-                $("div#searchdiv").hide();
-                $("#book").toggle();
-        });
+            try{
+                data.items.forEach(function(v,i){
+                    var title;
+                    var author;
+                    var description;
+                    var img;
+                    if (v.volumeInfo.title != undefined){
+                        title = v.volumeInfo.title;
+                    } else title = "Title not Available";
+                    if (v.volumeInfo.authors != undefined){
+                        author = v.volumeInfo.authors;
+                    } else author = "Author not Available";
+                    if (v.volumeInfo.description != undefined){
+                        description = v.volumeInfo.description;
+                    } else description = "Description not Available";
+                    if ((v.volumeInfo.imageLinks != undefined) &&(v.volumeInfo.imageLinks.thumbnail != undefined)){
+                        img = v.volumeInfo.imageLinks.thumbnail;
+                    } else img = "not_found.jpg"
+                    var book = {
+                        "title": title,
+                        "author": author,
+                        "description": description,
+                        "img": img,
+                        "opinion": "",
+                    }
+                    obj.books.push(book);
+                });        
+            }catch(err){
+                    alert("Ocorreu um erro: " + err)};
+
+                    obj.Load(obj.books[0]);
+                    $("div#searchdiv").hide();
+                    $("#book").toggle();
+                
+        });  
     }
 
 
@@ -92,8 +156,14 @@ class Library{
         //.removeClass("hidden"); 
 
         $(".ops").html(this.opinions);
-        // $(".ops").text(JSON.stringify(opinions[0]));
-        // create paragraph for each comment
+        this.opinions = "";
+    }
+
+    Reset(){
+        library.books = library.seenBooks;
+        library.seenBooks = [];
+        library.Load(library.books[0]);
+        this.opinions = "";
     }
 
     NewSearch(){
@@ -117,11 +187,8 @@ class Library{
         //addClass("hidden");//.removeClass("book");
         $("#book").toggle();
         //removeClass("hidden"); 
-        opinions = "";
         //$(".ops").empty();
-        library.books = library.seenBooks;
-        library.seenBooks = [];
-        library.Load(library.books[0]);
+        library.Reset();
 
  });
 
@@ -138,8 +205,8 @@ class Library{
 //var library = new Library();
 
 $("button.like, button.dislike").click(function(){
-    library.NextBook();  });
-
+    library.NextBook();
+});
 
 $( "#searchdiv").submit(function(event) {
     event.preventDefault();
