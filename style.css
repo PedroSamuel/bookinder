@@ -1,9 +1,57 @@
-body {
-    background-image: url("background1.jpg");
-    background: #7da8f8; 
+
+html{
+    background: black;
+    text-align: justify;
+    text-justify: inter-word;
+
+}
+
+.container-fluid {
+    background-image: url("dream.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background: black; */
+    font-family: "sans-serif";
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    color: rgb(38, 0, 191);
     
 }
 
+.container-fluid {
+    display: block;
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+}
+
+.page_header {
+    top: 1px;
+    display: block;
+    margin: auto;
+    position: relative;
+    height: 5em;
+    width: 100%;
+    background: #65658c;
+    padding: 0px;
+    margin: 0px;
+    border-top: 10px solid black; 
+    border-bottom: 10px solid black; 
+ 
+
+}
+
+.page_header h1{
+    font-size: 3rem;
+    margin-left: 10%;
+}
+
+.sofia{
+    font-family: 'Sofia';
+    color: rgba(120, 2, 134, 4);
+}
 
 /* div div div:hover {
     background: #acaf82;
@@ -11,10 +59,11 @@ body {
 
 }  */
 
-h1, h4 {
+#book h1, h4 {
     color: purple;
     text-align: center;
 }
+
 
 
 img {
@@ -52,7 +101,7 @@ button.dislike {
 }
 
 span.dislike {
-    color: red;
+    color: firebrick;
 }
 
 button.like {
@@ -79,6 +128,7 @@ span.like {
     margin: auto;
     display: block;
     background: #65658c;
+    border: 10px solid black; 
 
 } 
 
@@ -87,9 +137,44 @@ span.like {
     position: relative;
     margin: auto;
     top: 100px;
-    width: 300px;
- 
+    width: 400px;
+    height: 400px;
+    background: #65658c;
+    border: 10px solid black; 
+    padding-top: 30px; 
+    padding-bottom: 30px; 
+    padding-right: 30px; 
+    padding-left: 30px;
 }
+
+form#search{
+    position: relative;
+    display: block;
+    top: 10%;
+}
+
+form#search input{
+    width: 100%;
+}
+
+
+#final{
+    position: relative;
+    margin: auto;
+    top: 100px;
+    width: 300px;
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle;
+    background: #65658c;
+    border: 10px solid black;
+    padding-top: 30px; 
+    padding-bottom: 30px; 
+    padding-right: 30px; 
+    padding-left: 30px;
+    tex
+}
+
 
 
 /* .container-fluid{
@@ -153,13 +238,12 @@ label {
 }
 
 p {
-    /* height: 700px; */
-    display: block;
+     display: block; 
+     /* width: 40%; */
 }
 
 .top {
     border: 0;
-    /* height: 700px; */
     display: block;
 }
 
@@ -188,7 +272,7 @@ p {
 
 #hourglass{
     display: block;
-    position: absolute;
+    position: relative;
 }
 
 /* .hidden {

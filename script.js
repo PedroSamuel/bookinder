@@ -17,13 +17,16 @@ function printTime(){
 
 setInterval(printTime, 1000);
 
+
 class Library{
-    constructor(target){
+    constructor(target) {
         this.target = target
         this.books = [];
         this.seenBooks = [];
-        this.GetBooks(this.target);
+        this.index = 0;
+        this.GetBooks(this.target, this.index)
         this.opinions = "";
+
     }
 
     Load(book){
@@ -92,11 +95,13 @@ class Library{
                 library.Final();
             }        
     }
-    GetBooks(search){
+    GetBooks(search, ind){
         var obj = this;
+        console.log('index = ' + ind)
+        
         //alert("Searching books by name: " + search);
         $.ajax({
-            url: "https://www.googleapis.com/books/v1/volumes?q=/" + search,
+            url: "https://www.googleapis.com/books/v1/volumes?q=/" + search +"&startIndex=" + ind,
             
         }).done(function(data){
             //quando o pedido ajax terminar com sucesso
@@ -154,20 +159,26 @@ class Library{
         //.addClass("hidden");
         $("#final").toggle();
         //.removeClass("hidden"); 
-
+        $("#final h2").text(this.target);
+        var index_min = this.index + 1;
+        var index_max = this.index + 10;  
+        $("#final h4").html(index_min +  (" to ") + index_max);
         $(".ops").html(this.opinions);
         this.opinions = "";
     }
 
     Reset(){
-        library.books = library.seenBooks;
         library.seenBooks = [];
-        library.Load(library.books[0]);
         this.opinions = "";
     }
 
     NewSearch(){
         this.target = $("form#search").val()
+    }
+
+    More(){
+    this.index = this.index + 10;
+    this.GetBooks(this.target, this.index)
     }
 }
 
@@ -184,11 +195,20 @@ class Library{
  $("#return").click(function(){
 
         $("#final").toggle();
-        //addClass("hidden");//.removeClass("book");
         $("#book").toggle();
-        //removeClass("hidden"); 
-        //$(".ops").empty();
+        library.books = library.seenBooks;
         library.Reset();
+        library.Load(library.books[0]);
+
+ });
+
+  $("#more").click(function(){
+
+        $("#final").toggle();
+        library.Reset();
+        library.More();
+
+
 
  });
 
@@ -202,6 +222,7 @@ class Library{
         //removeClass("hidden");
  });
 
+
 //var library = new Library();
 
 $("button.like, button.dislike").click(function(){
@@ -214,5 +235,25 @@ $( "#searchdiv").submit(function(event) {
     $("#hourglass").show();
 
 });
+var writing = 0;
+
+var sub = jQuery.Event( "submit" );
+
+var leng = "";
+$("#booksearch").keyup(function() {
+    writing = 1;
+    leng = $( this ).val();
+    setTimeout(function(){
+        writing = 0},2000);    
+});
+
+function explode(){
+            writing = 0;
+};
+setTimeout(function(){
+        console.log("boom boom")
+        if ((leng.lenght > 2)&&(writing == 0)) {
+        $( "form" ).trigger( sub )};
+},2000);
 
 var library;
