@@ -243,17 +243,18 @@ var leng = "";
 $("#booksearch").keyup(function() {
     writing = 1;
     leng = $( this ).val();
+    leng = leng.length;
     setTimeout(function(){
-        writing = 0},2000);    
+        writing = 2;
+        console.log(leng)},2000);    
 });
 
-function explode(){
-            writing = 0;
-};
-setTimeout(function(){
-        console.log("boom boom")
-        if ((leng.lenght > 2)&&(writing == 0)) {
-        $( "form" ).trigger( sub )};
+
+setInterval(function(){
+        if ((leng > 2)&&(writing == 2)) {
+        $( "form" ).trigger( sub );
+        writing = 0;
+        leng = "";}
 },2000);
 
 var library;
