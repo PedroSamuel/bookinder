@@ -180,6 +180,7 @@ class Library{
     this.index = this.index + 10;
     this.GetBooks(this.target, this.index)
     }
+
 }
 
 
@@ -229,32 +230,54 @@ $("button.like, button.dislike").click(function(){
     library.NextBook();
 });
 
+
+//var writing = 0;
+
+
 $( "#searchdiv").submit(function(event) {
     event.preventDefault();
     library = new Library($("#booksearch").val());
+    //writing = 0;
     $("#hourglass").show();
 
-});
-var writing = 0;
 
-var sub = jQuery.Event( "submit" );
-
-var leng = "";
-$("#booksearch").keyup(function() {
-    writing = 1;
-    leng = $( this ).val();
-    leng = leng.length;
-    setTimeout(function(){
-        writing = 2;
-        console.log(leng)},2000);    
 });
 
 
-setInterval(function(){
-        if ((leng > 2)&&(writing == 2)) {
-        $( "form" ).trigger( sub );
-        writing = 0;
-        leng = "";}
-},2000);
+// var sub = jQuery.Event( "submit" );
+
+// var leng = "";
+// $("#booksearch").keyup(function() {
+//     writing = 1;
+//     leng = $( this ).val();
+//     leng = leng.length;
+//     if (leng > 2){
+//         setTimeout(function(){
+//             $( "form" ).trigger( sub );
+//             leng = 0;
+//         },2000);  
+//     }
+// });
+
+// while ((leng > 2)&&(writing == 2)) {
+//     setInterval(function(){
+//         console.log(writing);
+//
+//         writing = 0;
+
+//     },2000);
+// };
+
+var timer;
+$('#booksearch').keyup(function(){
+    clearTimeout(timer);
+        if ($('#booksearch').val().length > 2){
+            timer = setTimeout(function() {
+               $('#searchsub').click(); 
+               console.log("ok")
+            }, 2000);
+    }
+});
+
 
 var library;
